@@ -1,0 +1,41 @@
+version: "3.1"
+
+rules:
+
+- rule: Responder al saludo
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: Responder a despedida  
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Responder afirmación
+  steps:
+  - intent: affirm
+  - action: utter_happy
+
+- rule: Responder a bot challenge
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: Consulta de riesgo con ubicación inmediata
+  condition:
+  - active_loop: null
+  steps:
+  - intent: consultar_riesgo
+    entities:
+    - ubicacion
+  - action: action_consultar_riesgo
+
+- rule: Búsqueda de refugio con ubicación inmediata
+  condition:
+  - active_loop: null
+  steps:
+  - intent: buscar_refugio
+    entities:
+    - ubicacion
+  - action: action_buscar_refugio

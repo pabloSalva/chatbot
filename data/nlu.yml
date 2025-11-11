@@ -1,0 +1,125 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hola
+    - buenos días
+    - buenas tardes
+    - buenas noches
+    - qué tal
+    - saludos
+    - hola, necesito ayuda
+    - buen día
+
+- intent: goodbye
+  examples: |
+    - adiós
+    - hasta luego
+    - nos vemos
+    - chau
+    - me voy
+    - hasta la vista
+    - bye
+    - gracias, eso es todo
+
+- intent: affirm
+  examples: |
+    - sí
+    - por supuesto
+    - correcto
+    - exacto
+    - así es
+    - perfecto
+    - ok
+    - está bien
+
+- intent: deny
+  examples: |
+    - no
+    - no es correcto
+    - incorrecto
+    - no es así
+    - no gracias
+    - para nada
+    - negativo
+
+- intent: mood_great
+  examples: |
+    - estoy genial
+    - me siento bien
+    - excelente
+    - fantástico
+    - muy bien
+
+- intent: mood_unhappy
+  examples: |
+    - estoy triste
+    - no me siento bien
+    - terrible
+    - muy mal
+    - horrible
+
+- intent: bot_challenge
+  examples: |
+    - eres un bot?
+    - eres humano?
+    - estoy hablando con un bot?
+    - eres real?
+    - qué eres?
+
+- intent: consultar_riesgo
+  examples: |
+    - ¿cuál es el nivel de riesgo en mi zona?
+    - hay riesgo de inundación aquí?
+    - está mi área en peligro?
+    - ¿es segura mi ubicación?
+    - ¿hay alertas para [Barracas](ubicacion)?
+    - riesgo en [San Telmo](ubicacion)
+    - ¿qué tan peligroso es [La Boca](ubicacion)?
+    - nivel de alerta en mi dirección
+    - ¿hay peligro de [inundación](tipo_evento)?
+    - consultar riesgo hídrico
+    - evaluar peligrosidad
+    - ¿está [crítico](nivel_alerta) el nivel?
+
+- intent: buscar_refugio
+  examples: |
+    - necesito un refugio
+    - dónde puedo refugiarme?
+    - refugios cercanos
+    - ¿hay refugios disponibles?
+    - necesito un lugar seguro
+    - centros de evacuación
+    - refugios en [Puerto Madero](ubicacion)
+    - lugares seguros cerca
+    - ¿dónde me puedo refugiar?
+    - centros de emergencia
+    - necesito evacuación
+    - refugio más cercano
+
+- intent: reportar_emergencia
+  examples: |
+    - quiero reportar una emergencia
+    - hay una [inundación](tipo_evento)
+    - necesito reportar [contaminación](tipo_evento)
+    - hay [agua en las calles](tipo_evento)
+    - emergencia hídrica
+    - problema de [infraestructura](tipo_evento)
+    - reportar incidente
+    - hay una situación de emergencia
+    - necesito denunciar algo
+    - [falla en el sistema](tipo_evento) de agua
+    - [sequía](tipo_evento) en la zona
+    - derrame de agua
+
+- intent: compartir_ubicacion
+  examples: |
+    - estoy en [San Telmo 1234](direccion)
+    - mi dirección es [Defensa 755](direccion)
+    - me encuentro en latitud [-34.6217](latitud) longitud [-58.3725](longitud)
+    - estoy en [-34.6118](latitud), [-58.3960](longitud)
+    - mi ubicación es [Plaza de Mayo](ubicacion)
+    - me encuentro en [La Boca](ubicacion)
+    - estoy en [Puerto Madero](ubicacion)
+    - coordenadas [-34.6092](latitud) [-58.3617](longitud)

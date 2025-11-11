@@ -1,0 +1,56 @@
+version: "3.1"
+
+stories:
+
+- story: saludo simple
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- story: consulta de riesgo básica
+  steps:
+  - intent: consultar_riesgo
+  - action: utter_ask_location
+  - intent: compartir_ubicacion
+  - action: utter_location_received
+  - action: action_consultar_riesgo
+
+- story: búsqueda de refugio
+  steps:
+  - intent: buscar_refugio
+  - action: utter_ask_location
+  - intent: compartir_ubicacion
+  - action: utter_location_received
+  - action: action_buscar_refugio
+
+- story: reporte de emergencia
+  steps:
+  - intent: reportar_emergencia
+  - action: utter_ask_emergency_details
+  - intent: compartir_ubicacion
+  - action: action_reportar_emergencia
+  - action: utter_emergency_reported
+
+- story: flujo completo con ubicación
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: consultar_riesgo
+  - action: utter_ask_location
+  - intent: compartir_ubicacion
+  - action: utter_location_received
+  - action: action_consultar_riesgo
+  - intent: buscar_refugio
+  - action: action_buscar_refugio
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: bot challenge
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- story: despedida
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye

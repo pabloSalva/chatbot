@@ -1,0 +1,76 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - consultar_riesgo
+  - buscar_refugio
+  - reportar_emergencia
+  - compartir_ubicacion
+
+entities:
+  - ubicacion
+  - tipo_evento
+  - nivel_alerta
+  - direccion
+  - latitud
+  - longitud
+
+slots:
+  ubicacion:
+    type: text
+  tipo_evento:
+    type: text
+  nivel_alerta:
+    type: text
+  direccion:
+    type: text
+  latitud:
+    type: float
+  longitud:
+    type: float
+
+responses:
+  utter_greet:
+    - text: "¡Hola! Soy HydroAssist, tu asistente para emergencias hídricas. ¿En qué puedo ayudarte?"
+    - text: "¡Hola! Estoy aquí para ayudarte con información sobre riesgos de inundación, refugios y emergencias. ¿Qué necesitas?"
+
+  utter_cheer_up:
+    - text: "Aquí tienes algo para animarte:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+    - text: "¿Te ayudó esa información?"
+
+  utter_happy:
+    - text: "¡Perfecto! Me alegra poder ayudarte."
+    - text: "¡Excelente! ¿Hay algo más en lo que pueda asistirte?"
+
+  utter_goodbye:
+    - text: "¡Hasta luego! Mantente seguro."
+    - text: "Adiós. Recuerda que puedes contactarme siempre que necesites información sobre emergencias hídricas."
+
+  utter_iamabot:
+    - text: "Soy HydroAssist, un bot desarrollado para ayudarte con emergencias hídricas."
+
+  utter_ask_location:
+    - text: "Para ayudarte mejor, necesito conocer tu ubicación. ¿Podrías proporcionarme tu dirección o coordenadas?"
+    - text: "¿Puedes compartir tu ubicación actual? Así podré darte información más precisa sobre refugios y riesgos en tu zona."
+
+  utter_location_received:
+    - text: "Perfecto, he recibido tu ubicación. Déjame consultar la información para ti..."
+
+  utter_ask_emergency_details:
+    - text: "Entiendo que quieres reportar una emergencia. ¿Podrías describir qué tipo de situación estás observando?"
+
+  utter_emergency_reported:
+    - text: "Gracias por tu reporte. La información ha sido registrada y enviada a las autoridades correspondientes."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
