@@ -74,14 +74,16 @@ nlu:
     - hay riesgo de inundación aquí?
     - está mi área en peligro?
     - ¿es segura mi ubicación?
-    - ¿hay alertas para [Barracas](ubicacion)?
-    - riesgo en [San Telmo](ubicacion)
-    - ¿qué tan peligroso es [La Boca](ubicacion)?
+    - ¿hay alertas para [Tolosa](ubicacion)?
+    - riesgo en [Berisso](ubicacion)
+    - ¿qué tan peligroso es [Ensenada](ubicacion)?
     - nivel de alerta en mi dirección
     - ¿hay peligro de [inundación](tipo_evento)?
-    - consultar riesgo hídrico
-    - evaluar peligrosidad
-    - ¿está [crítico](nivel_alerta) el nivel?
+    - consultar riesgo hídrico en [La Plata](ubicacion)
+    - evaluar peligrosidad en [Los Hornos](ubicacion)
+    - ¿está [crítico](nivel_alerta) el nivel en [Villa Elvira](ubicacion)?
+    - riesgo en [Casco Urbano](ubicacion)
+    - ¿hay alerta en [Altos de San Lorenzo](ubicacion)?
 
 - intent: buscar_refugio
   examples: |
@@ -91,12 +93,15 @@ nlu:
     - ¿hay refugios disponibles?
     - necesito un lugar seguro
     - centros de evacuación
-    - refugios en [Puerto Madero](ubicacion)
+    - refugios en [Centro de La Plata](ubicacion)
     - lugares seguros cerca
     - ¿dónde me puedo refugiar?
-    - centros de emergencia
-    - necesito evacuación
+    - centros de emergencia en [Berisso](ubicacion)
+    - necesito evacuación en [Ensenada](ubicacion)
     - refugio más cercano
+    - refugios en [City Bell](ubicacion)
+    - centros de evacuación en [Gonnet](ubicacion)
+    - lugares seguros en [Tolosa](ubicacion)
 
 - intent: reportar_emergencia
   examples: |
@@ -115,11 +120,16 @@ nlu:
 
 - intent: compartir_ubicacion
   examples: |
-    - estoy en [San Telmo 1234](direccion)
-    - mi dirección es [Defensa 755](direccion)
-    - me encuentro en latitud [-34.6217](latitud) longitud [-58.3725](longitud)
-    - estoy en [-34.6118](latitud), [-58.3960](longitud)
-    - mi ubicación es [Plaza de Mayo](ubicacion)
-    - me encuentro en [La Boca](ubicacion)
-    - estoy en [Puerto Madero](ubicacion)
-    - coordenadas [-34.6092](latitud) [-58.3617](longitud)
+    - estoy en [Diagonal 74 entre 5 y 6](direccion)
+    - mi dirección es [Calle 7 y 50](direccion)
+    - me encuentro en latitud [-34.9205](latitud) longitud [-57.9536](longitud)
+    - estoy en [-34.9215](latitud), [-57.9545](longitud)
+    - mi ubicación es [Plaza Moreno](ubicacion)
+    - me encuentro en [Berisso centro](ubicacion)
+    - estoy en [Ensenada puerto](ubicacion)
+    - coordenadas [-34.8833](latitud) [-57.8897](longitud)
+    - estoy en [Avenida 7 y 32](direccion)
+    - mi dirección es [Avenida 122 y 44](direccion)
+    - me encuentro en [La República de los Niños](ubicacion)
+    - estoy en [-34.9104](latitud), [-57.9313](longitud)
+    - mi ubicación es [Parque Saavedra](ubicacion)

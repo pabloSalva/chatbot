@@ -24,16 +24,39 @@ entities:
 slots:
   ubicacion:
     type: text
+    mappings:
+    - type: from_entity
+      entity: ubicacion
   tipo_evento:
     type: text
+    mappings:
+    - type: from_entity
+      entity: tipo_evento
   nivel_alerta:
     type: text
+    mappings:
+    - type: from_entity
+      entity: nivel_alerta
   direccion:
     type: text
+    mappings:
+    - type: from_entity
+      entity: direccion
   latitud:
     type: float
+    mappings:
+    - type: from_entity
+      entity: latitud
   longitud:
     type: float
+    mappings:
+    - type: from_entity
+      entity: longitud
+
+actions:
+  - action_consultar_riesgo
+  - action_buscar_refugio
+  - action_reportar_emergencia
 
 responses:
   utter_greet:
