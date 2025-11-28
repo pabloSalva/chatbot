@@ -3,16 +3,9 @@ import requests
 import json
 import re
 
-# Simulación de las clases de Rasa para desarrollo sin instalación completa
-class Action:
-    def name(self) -> Text:
-        return "action_default"
-    
-    def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
-        return []
-
-class ActionExecutionRejection(Exception):
-    pass
+from rasa_sdk import Action, Tracker
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet
 
 # Configuración de la API
 DJANGO_API_URL = "http://localhost:8000/api"
@@ -20,14 +13,14 @@ DJANGO_API_URL = "http://localhost:8000/api"
 # Funciones auxiliares
 def extract_coordinates_from_text(text: str) -> Dict[str, float]:
     """Extrae coordenadas de un texto usando regex"""
-    # Buscar patrones como: -34.6217, -58.3725 o lat: -34.6217 lon: -58.3725
+    # Buscar patrones como: -34.9205, -57.9536 o lat: -34.9205 lon: -57.9536
     coord_pattern = r'(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)'
     match = re.search(coord_pattern, text)
     
     if match:
         lat, lon = float(match.group(1)), float(match.group(2))
-        # Validar rangos aproximados para Buenos Aires
-        if -35 <= lat <= -34 and -59 <= lon <= -57:
+        # Validar rangos aproximados para La Plata, Berisso y Ensenada
+        if -35.5 <= lat <= -34.5 and -58.5 <= lon <= -57.5:
             return {"lat": lat, "lon": lon}
     
     return {}
@@ -61,7 +54,9 @@ class ActionConsultarRiesgo(Action):
     def name(self) -> Text:
         return "action_consultar_riesgo"
     
-    def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher, 
+            tracker: Tracker, 
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         try:
             # Obtener entidades de ubicación
             entities = tracker.latest_message.get('entities', [])
@@ -73,9 +68,9 @@ class ActionConsultarRiesgo(Action):
                 coords = extract_coordinates_from_text(text)
                 location_data.update(coords)
             
-            # Coordenadas por defecto (centro de Buenos Aires) si no se proporciona ubicación
-            lat = location_data.get('lat', -34.6118)
-            lon = location_data.get('lon', -58.3960)
+            # Coordenadas por defecto (Plaza Moreno, La Plata) si no se proporciona ubicación
+            lat = location_data.get('lat', -34.9205)
+            lon = location_data.get('lon', -57.9536)
             
             # Llamar a la API de Django
             response = requests.get(
@@ -119,7 +114,9 @@ class ActionBuscarRefugio(Action):
     def name(self) -> Text:
         return "action_buscar_refugio"
     
-    def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher, 
+            tracker: Tracker, 
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         try:
             # Obtener entidades de ubicación
             entities = tracker.latest_message.get('entities', [])
@@ -131,9 +128,9 @@ class ActionBuscarRefugio(Action):
                 coords = extract_coordinates_from_text(text)
                 location_data.update(coords)
             
-            # Coordenadas por defecto (centro de Buenos Aires) si no se proporciona ubicación
-            lat = location_data.get('lat', -34.6118)
-            lon = location_data.get('lon', -58.3960)
+            # Coordenadas por defecto (Plaza Moreno, La Plata) si no se proporciona ubicación
+            lat = location_data.get('lat', -34.9205)
+            lon = location_data.get('lon', -57.9536)
             
             # Llamar a la API de Django
             response = requests.get(
@@ -195,7 +192,9 @@ class ActionReportarEmergencia(Action):
     def name(self) -> Text:
         return "action_reportar_emergencia"
     
-    def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher, 
+            tracker: Tracker, 
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         try:
             # Obtener información del mensaje
             entities = tracker.latest_message.get('entities', [])
@@ -223,9 +222,9 @@ class ActionReportarEmergencia(Action):
                 coords = extract_coordinates_from_text(text)
                 location_data.update(coords)
             
-            # Coordenadas por defecto si no se proporciona ubicación específica
-            lat = location_data.get('lat', -34.6118)
-            lon = location_data.get('lon', -58.3960)
+            # Coordenadas por defecto (Plaza Moreno, La Plata) si no se proporciona ubicación específica
+            lat = location_data.get('lat', -34.9205)
+            lon = location_data.get('lon', -57.9536)
             
             # Preparar datos del reporte
             report_data = {
@@ -276,7 +275,9 @@ class ActionDefaultFallback(Action):
     def name(self) -> Text:
         return "action_default_fallback"
     
-    def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher, 
+            tracker: Tracker, 
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         message = "Lo siento, no entendí tu mensaje. Puedo ayudarte con:\n\n"
         message += "🔍 Consultar riesgo de inundación en tu zona\n"
         message += "🏠 Buscar refugios cercanos\n"
@@ -285,30 +286,3 @@ class ActionDefaultFallback(Action):
         
         dispatcher.utter_message(text=message)
         return []
-
-
-# Para uso sin Rasa completo, podemos simular una respuesta
-def simulate_rasa_response(message: str, user_id: str = "user") -> Dict[str, Any]:
-    """Simula una respuesta de Rasa para testing"""
-    message_lower = message.lower()
-    
-    if "riesgo" in message_lower or "peligro" in message_lower:
-        return {
-            "recipient_id": user_id,
-            "text": "📍 Evaluación de riesgo para tu ubicación:\n\n🚨 Nivel: MEDIO\n📝 Zona con riesgo moderado de anegamiento por lluvias intensas\n\n✅ Puedes consultar refugios cercanos si lo necesitas."
-        }
-    elif "refugio" in message_lower or "refugios" in message_lower:
-        return {
-            "recipient_id": user_id,
-            "text": "🏠 Encontré 3 refugios cercanos:\n\n1. **Centro Comunal San Telmo**\n   📍 Defensa 755, San Telmo, CABA\n   👥 Capacidad: 150 personas\n   📊 🟢 Disponible (77% disponible)\n   📞 +54-11-4300-4000\n\n2. **Escuela Nº 15 Puerto Madero**\n   📍 Juana Manso 895, Puerto Madero, CABA\n   👥 Capacidad: 100 personas\n   📊 🟢 Disponible (85% disponible)\n   📞 +54-11-4300-4002"
-        }
-    elif "emergencia" in message_lower or "reportar" in message_lower:
-        return {
-            "recipient_id": user_id,
-            "text": "✅ Tu reporte de emergencia ha sido registrado exitosamente.\n\n📋 ID del reporte: 1001\n🚨 Las autoridades competentes han sido notificadas.\n\nSi es una emergencia inmediata que requiere atención médica o de bomberos, llama al 911."
-        }
-    else:
-        return {
-            "recipient_id": user_id,
-            "text": "¡Hola! Soy HydroAssist, tu asistente para emergencias hídricas. Puedo ayudarte con:\n\n🔍 Consultar riesgo de inundación\n🏠 Buscar refugios cercanos\n📢 Reportar emergencias\n\n¿En qué puedo asistirte?"
-        }
